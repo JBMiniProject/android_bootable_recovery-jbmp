@@ -756,6 +756,8 @@ prompt_and_wait() {
                 break;
 
             case ITEM_AROMAFM:
+                ensure_path_mounted("/system");
+                ensure_path_mounted("/data");
                 install_zip(AROMAFM);
                 break;
 
