@@ -717,7 +717,7 @@ prompt_and_wait() {
                         return;
                         }
                     case 1: {
-                        __system("reboot recovery");
+                        android_reboot(ANDROID_RB_RESTART2, 0, "recovery");
                         break;
                         }
                 }
