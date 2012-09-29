@@ -414,30 +414,12 @@ int confirm_selection(const char* title, const char* confirm)
         return 1;
 
     char* confirm_headers[]  = {  title, "  THIS CAN NOT BE UNDONE.", "", NULL };
-	if (0 == stat("/sdcard/clockworkmod/.one_confirm", &info)) {
-		char* items[] = { "No",
-						confirm, //" Yes -- wipe partition",   // [1]
-						NULL };
-		int chosen_item = get_menu_selection(confirm_headers, items, 0, 0);
-		return chosen_item == 1;
-	}
-	else {
-		char* items[] = { "No",
-						"No",
-						"No",
-						"No",
-						"No",
-						"No",
-						"No",
-						confirm, //" Yes -- wipe partition",   // [7]
-						"No",
-						"No",
-						"No",
-						NULL };
-		int chosen_item = get_menu_selection(confirm_headers, items, 0, 0);
-		return chosen_item == 7;
-	}
-	}
+    char* items[] = { "No",
+		      confirm, //" Yes -- wipe partition",   // [7]
+		      NULL };
+    int chosen_item = get_menu_selection(confirm_headers, items, 0, 0);
+    return chosen_item == 1;
+}
 
 #define MKE2FS_BIN      "/sbin/mke2fs"
 #define TUNE2FS_BIN     "/sbin/tune2fs"
