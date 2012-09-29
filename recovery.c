@@ -708,9 +708,30 @@ prompt_and_wait() {
 
         int status;
         switch (chosen_item) {
-            case ITEM_REBOOT:
-                poweroff=0;
-                return;
+            case ITEM_REBOOT: {
+                static char* headers[] = {  "Reboot Options",
+                                            "",
+                                            NULL
+                                         };
+
+                static char* list[] = { "reboot system now",
+                                        "reboot recovery",
+                                        NULL
+                                      };
+
+                int chosen_item = get_menu_selection(headers, list, 0, 0);
+                switch (chosen_item) {
+                    case 0: {
+                        poweroff=0;
+                        return;
+                        }
+                    case 1: {
+                        __system("reboot recovery");
+                        break;
+                        }
+                }
+                break;
+            }
 
             case ITEM_WIPE_DATA:
                 wipe_data(ui_text_visible());
