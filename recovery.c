@@ -66,6 +66,7 @@ static int poweroff = 0;
 static const char *SDCARD_PACKAGE_FILE = "/sdcard/update.zip";
 static const char *TEMPORARY_LOG_FILE = "/tmp/recovery.log";
 static const char *SIDELOAD_TEMP_DIR = "/tmp/sideload";
+static const char *AROMAFM = "/tmp/aromafm.zip";
 
 extern UIParameters ui_parameters;    // from ui.c
 
@@ -741,7 +742,11 @@ prompt_and_wait() {
             case ITEM_ADVANCED:
                 show_advanced_menu();
                 break;
-                
+
+            case ITEM_AROMAFM:
+                install_zip(AROMAFM);
+                break;
+
             case ITEM_POWEROFF:
                 poweroff = 1;
                 return;
