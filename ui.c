@@ -277,8 +277,17 @@ static void draw_screen_locked(void)
 
             int batt_level = 0;
             batt_level = get_batt_stats();
-            if (batt_level < 21) {
-                gr_color(255, 0, 0, 255);
+            if (batt_level > 74) {
+                gr_color(0, 255, 0, 255); //green
+            }
+            else if (batt_level < 75 && batt_level > 49 ) {
+                gr_color(255, 255, 0, 255); //yellow
+            }
+            else if (batt_level < 50 && batt_level > 19) {
+                gr_color(255, 128, 0, 255); //orange
+            }
+            else {
+                gr_color(255, 0, 0, 255); //red
             }
             char batt_text[40];
             sprintf(batt_text, "[%d%%]", batt_level);
