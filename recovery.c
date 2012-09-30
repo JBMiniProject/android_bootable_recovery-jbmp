@@ -408,7 +408,6 @@ copy_sideloaded_package(const char* original_path) {
 static char**
 prepend_title(char** headers) {
     char* title[] = { EXPAND(RECOVERY_NAME),
-                      "",
                       NULL };
 
     // count the number of lines in our title, plus the
