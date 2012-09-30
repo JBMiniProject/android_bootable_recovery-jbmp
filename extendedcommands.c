@@ -49,8 +49,6 @@ int signature_check_enabled = 1;
 int script_assert_enabled = 1;
 static const char *SDCARD_UPDATE_FILE = "/sdcard/update.zip";
 
-extern struct selabel_handle *sehandle;
-
 void
 toggle_signature_check()
 {
@@ -497,7 +495,7 @@ int format_device(const char *device, const char *path, const char *fs_type) {
             length = v->length;
         }
         reset_ext4fs_info();
-        int result = make_ext4fs(device, length, path, sehandle);
+        int result = make_ext4fs(device, length);
         if (result != 0) {
             LOGE("format_volume: make_extf4fs failed on %s\n", device);
             return -1;
@@ -889,8 +887,7 @@ void show_advanced_menu()
                                 NULL
     };
 
-    static char* list[] = { "Reboot Recovery",
-                            "Wipe Dalvik Cache",
+    static char* list[] = { "Wipe Dalvik Cache",
                             "Wipe Battery Stats",
                             "Report Error",
                             "Key Test",
@@ -912,11 +909,6 @@ void show_advanced_menu()
         {
             case 0:
             {
-                android_reboot(ANDROID_RB_RESTART2, 0, "recovery");
-                break;
-            }
-            case 1:
-            {
                 if (0 != ensure_path_mounted("/data"))
                     break;
                 ensure_path_mounted("/sd-ext");
@@ -930,16 +922,16 @@ void show_advanced_menu()
                 ensure_path_unmounted("/data");
                 break;
             }
-            case 2:
+            case 1:
             {
                 if (confirm_selection( "Confirm wipe?", "Yes - Wipe Battery Stats"))
                     wipe_battery_stats();
                 break;
             }
-            case 3:
+            case 2:
                 handle_failure(1);
                 break;
-            case 4:
+            case 3:
             {
                 ui_print("Outputting key codes.\n");
                 ui_print("Go back to end debugging.\n");
@@ -954,12 +946,12 @@ void show_advanced_menu()
                 while (action != GO_BACK);
                 break;
             }
-            case 5:
+            case 4:
             {
                 ui_printlogtail(12);
                 break;
             }
-            case 6:
+            case 5:
             {
                 static char* ext_sizes[] = { "128M",
                                              "256M",
@@ -1002,7 +994,7 @@ void show_advanced_menu()
                     ui_print("An error occured while partitioning your SD Card. Please see /tmp/recovery.log for more details.\n");
                 break;
             }
-            case 7:
+            case 6:
             {
                 ensure_path_mounted("/system");
                 ensure_path_mounted("/data");
@@ -1011,7 +1003,7 @@ void show_advanced_menu()
                 ui_print("Done!\n");
                 break;
             }
-            case 8:
+            case 7:
             {
                 static char* ext_sizes[] = { "128M",
                                              "256M",
