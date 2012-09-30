@@ -1,0 +1,8 @@
+TODO:
+-----
+JBMini Project recovery plans:
+
+	Battery stat refresh every 30 sec
+	Battery indicator text chang to icon
+	Add Actual time
+	Add touch controls
