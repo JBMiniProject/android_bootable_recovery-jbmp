@@ -30,9 +30,6 @@
 #include "roots.h"
 #include "recovery_ui.h"
 
-#include "../../external/yaffs2/yaffs2/utils/mkyaffs2image.h"
-#include "../../external/yaffs2/yaffs2/utils/unyaffs.h"
-
 #include <sys/vfs.h>
 
 #include "extendedcommands.h"
@@ -63,9 +60,9 @@ static int print_and_error(const char* message) {
     return 1;
 }
 
-static int yaffs_files_total = 0;
-static int yaffs_files_count = 0;
-static void yaffs_callback(const char* filename)
+static int nandroid_files_total = 0;
+static int nandroid_files_count = 0;
+static void nandroid_callback(const char* filename)
 {
     if (filename == NULL)
         return;
@@ -75,10 +72,10 @@ static void yaffs_callback(const char* filename)
     if (tmp[strlen(tmp) - 1] == '\n')
         tmp[strlen(tmp) - 1] = NULL;
     tmp[ui_get_text_cols() - 1] = '\0';
-    yaffs_files_count++;
+    nandroid_files_count++;
     ui_nice_print("%s\n", tmp);
-    if (!ui_was_niced() && yaffs_files_total != 0)
-        ui_set_progress((float)yaffs_files_count / (float)yaffs_files_total);
+    if (!ui_was_niced() && nandroid_files_total != 0)
+        ui_set_progress((float)nandroid_files_count / (float)nandroid_files_total);
     if (!ui_was_niced())
         ui_delete_line();
 }
@@ -92,8 +89,8 @@ static void compute_directory_stats(const char* directory)
     FILE* f = fopen("/tmp/dircount", "r");
     fread(count_text, 1, sizeof(count_text), f);
     fclose(f);
-    yaffs_files_count = 0;
-    yaffs_files_total = atoi(count_text);
+    nandroid_files_count = 0;
+    nandroid_files_total = atoi(count_text);
     ui_reset_progress();
     ui_show_progress(1, 0);
 }
@@ -102,10 +99,22 @@ typedef void (*file_event_callback)(const char* filename);
 typedef int (*nandroid_backup_handler)(const char* backup_path, const char* backup_file_image, int callback);
 
 static int mkyaffs2image_wrapper(const char* backup_path, const char* backup_file_image, int callback) {
-    char backup_file_image_with_extension[PATH_MAX];
-    char *secontext = NULL;
-    sprintf(backup_file_image_with_extension, "%s.img", backup_file_image);
-    return mkyaffs2image(backup_path, backup_file_image_with_extension, 0, secontext, callback ? yaffs_callback : NULL);
+    char tmp[PATH_MAX];
+    sprintf(tmp, "cd %s ; mkyaffs2image . %s.img ; exit $?", backup_path, backup_file_image);
+
+    FILE *fp = __popen(tmp, "r");
+    if (fp == NULL) {
+        ui_print("Unable to execute mkyaffs2image.\n");
+        return -1;
+    }
+
+    while (fgets(tmp, PATH_MAX, fp) != NULL) {
+        tmp[PATH_MAX - 1] = NULL;
+        if (callback)
+            nandroid_callback(tmp);
+    }
+
+    return __pclose(fp);
 }
 
 static int tar_compress_wrapper(const char* backup_path, const char* backup_file_image, int callback) {
@@ -121,7 +130,7 @@ static int tar_compress_wrapper(const char* backup_path, const char* backup_file
     while (fgets(tmp, PATH_MAX, fp) != NULL) {
         tmp[PATH_MAX - 1] = NULL;
         if (callback)
-            yaffs_callback(tmp);
+            nandroid_callback(tmp);
     }
 
     return __pclose(fp);
@@ -323,8 +332,6 @@ int nandroid_backup(const char* backup_path)
     return 0;
 }
 
-typedef int (*format_function)(char* root);
-
 static void ensure_directory(const char* dir) {
     char tmp[PATH_MAX];
     sprintf(tmp, "mkdir -p %s", dir);
@@ -334,23 +341,37 @@ static void ensure_directory(const char* dir) {
 typedef int (*nandroid_restore_handler)(const char* backup_file_image, const char* backup_path, int callback);
 
 static int unyaffs_wrapper(const char* backup_file_image, const char* backup_path, int callback) {
-    return unyaffs(backup_file_image, backup_path, callback ? yaffs_callback : NULL);
+    char tmp[PATH_MAX];
+    sprintf(tmp, "cd %s ; unyaffs %s ; exit $?", backup_path, backup_file_image);
+    FILE *fp = __popen(tmp, "r");
+    if (fp == NULL) {
+        ui_print("Unable to execute unyaffs.\n");
+        return -1;
+    }
+
+    while (fgets(tmp, PATH_MAX, fp) != NULL) {
+        tmp[PATH_MAX - 1] = NULL;
+        if (callback)
+            nandroid_callback(tmp);
+    }
+
+    return __pclose(fp);
 }
 
 static int tar_extract_wrapper(const char* backup_file_image, const char* backup_path, int callback) {
     char tmp[PATH_MAX];
-    sprintf(tmp, "cd $(dirname %s) ; cat %s* | tar xv ; exit $?", backup_path, backup_file_image);
 
-    char path[PATH_MAX];
+    sprintf(tmp, "cd $(dirname %s) ; cat %s* | tar xv ; exit $?", backup_path, backup_file_image);
     FILE *fp = __popen(tmp, "r");
     if (fp == NULL) {
         ui_print("Unable to execute tar.\n");
         return -1;
     }
 
-    while (fgets(path, PATH_MAX, fp) != NULL) {
+    while (fgets(tmp, PATH_MAX, fp) != NULL) {
+        tmp[PATH_MAX -1 ] = NULL;
         if (callback)
-            yaffs_callback(path);
+            nandroid_callback(tmp);
     }
 
     return __pclose(fp);
@@ -521,7 +542,7 @@ int nandroid_restore(const char* backup_path, int restore_boot, int restore_syst
 {
     ui_set_background(BACKGROUND_ICON_INSTALLING);
     ui_show_indeterminate_progress();
-    yaffs_files_total = 0;
+    nandroid_files_total = 0;
 
     if (ensure_path_mounted(backup_path) != 0)
         return print_and_error("Can't mount backup path\n");
