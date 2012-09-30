@@ -25,14 +25,14 @@ char* MENU_HEADERS[] = { "Jelly Bean Mini Project",
                          "",
                          NULL };
 
-char* MENU_ITEMS[] = { "reboot options",
-                       "install zip from sdcard",
+char* MENU_ITEMS[] = { "install zip from sdcard",
                        "wipe data/factory reset",
                        "wipe cache partition",
                        "backup and restore",
                        "mounts and storage",
                        "advanced",
                        "AROMA Filemanager",
+                       "reboot options",
                        "power off",
                        NULL };
 
