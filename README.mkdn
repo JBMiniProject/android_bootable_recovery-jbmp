@@ -6,3 +6,13 @@ JBMini Project recovery plans:
 	Battery indicator text chang to icon
 	Add Actual time
 	Add touch controls
+	Color theme chooser
+	Overclock
+	Install apk to system or data
+	Reorder menus and cleanup unused things
+	Current CPU freq in main screen
+	Current CPU governor in main screen
+	Current CPU temperature in main screen
+	Changelog in menu
+	Loading screen
+	Elapsed time for backup, restore, install zip
