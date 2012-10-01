@@ -123,21 +123,26 @@ static int key_queue[256], key_queue_len = 0;
 static unsigned long key_last_repeat[KEY_MAX + 1], key_press_time[KEY_MAX + 1];
 static volatile char key_pressed[KEY_MAX + 1];
 
-int get_batt_stats(void)
-{
+int get_batt_stats(void) {
     static int level = -1;
-    char value[4];
-    FILE * capacity = fopen("/sys/class/power_supply/battery/capacity","rt");
-    if (capacity)
-    {
-        fgets(value, 4, capacity);
-        fclose(capacity);
-        level = atoi(value);
+    static time_t nextCheck = 0;
+    struct timeval currentTime;
+    gettimeofday(&currentTime, NULL);
 
-        if (level > 100)
-            level = 100;
-        if (level < 0)
-            level = 0;
+    if (currentTime.tv_sec > nextCheck) {
+        char value[4];
+        FILE * capacity = fopen("/sys/class/power_supply/battery/capacity","rt");
+        if (capacity) {
+            fgets(value, 4, capacity);
+            fclose(capacity);
+            level = atoi(value);
+
+            if (level > 100)
+                level = 100;
+            if (level < 0)
+                level = 0;
+        }
+        nextCheck = currentTime.tv_sec + 30;
     }
     return level;
 }
