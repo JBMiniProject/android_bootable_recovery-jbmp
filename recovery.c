@@ -156,6 +156,17 @@ check_and_fclose(FILE *fp, const char *name) {
     fclose(fp);
 }
 
+// turn on button backlights if available
+void
+btn_backlight() {
+    if (!access ("/sys/class/leds/button-backlight/brightness", F_OK)) {
+        FILE *cbb = fopen ("/sys/class/leds/button-backlight/brightness", "w");
+        fputs("255",cbb);
+        fputs("\n",cbb);
+        fclose(cbb);
+    }
+}
+
 // command line args come from, in decreasing precedence:
 //   - the actual command line
 //   - the bootloader control block (one per line, after "recovery")
@@ -824,6 +835,7 @@ main(int argc, char **argv) {
     printf("Starting recovery on %s", ctime(&start));
 
     device_ui_init(&ui_parameters);
+    btn_backlight();
     ui_init();
     load_volume_table();
     process_volumes();
