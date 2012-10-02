@@ -704,8 +704,8 @@ prompt_and_wait() {
                                             NULL
                                          };
 
-                static char* list[] = { "reboot system now",
-                                        "reboot recovery",
+                static char* list[] = { "Reboot system now",
+                                        "Reboot recovery",
                                         NULL
                                       };
 
