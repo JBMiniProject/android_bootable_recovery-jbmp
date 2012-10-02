@@ -77,11 +77,11 @@ int install_zip(const char* packagefilepath)
     return 0;
 }
 
-char* INSTALL_MENU_ITEMS[] = {  "choose zip from sdcard",
-                                "apply /sdcard/update.zip",
-                                "toggle signature verification",
-                                "toggle script asserts",
-                                "choose zip from internal sdcard",
+char* INSTALL_MENU_ITEMS[] = {  "Choose ZIP from SD-Card",
+                                "Apply /sdcard/update.zip",
+                                "Toggle signature verification",
+                                "Toggle script asserts",
+                                "Choose ZIP from internal sdcard",
                                 NULL };
 #define ITEM_CHOOSE_ZIP       0
 #define ITEM_APPLY_SDCARD     1
@@ -803,12 +803,12 @@ void show_nandroid_menu()
                                 NULL
     };
 
-    static char* list[] = { "backup",
-                            "restore",
-                            "advanced restore",
-                            "backup to internal sdcard",
-                            "restore from internal sdcard",
-                            "advanced restore from internal sdcard",
+    static char* list[] = { "Backup",
+                            "Restore",
+                            "Advanced restore",
+                            "Backup to internal sdcard",
+                            "Restore from internal sdcard",
+                            "Advanced restore from internal sdcard",
                             NULL
     };
 

@@ -25,15 +25,15 @@ char* MENU_HEADERS[] = { "Jelly Bean Mini Project",
                          "",
                          NULL };
 
-char* MENU_ITEMS[] = { "install zip from sdcard",
-                       "wipe data/factory reset",
-                       "wipe cache partition",
-                       "backup and restore",
-                       "mounts and storage",
-                       "advanced",
+char* MENU_ITEMS[] = { "Install ZIP from SD-Card",
+                       "Factory reset",
+                       "Wipe cache partition",
+                       "Backup and Restore",
+                       "Mounts and Storage",
+                       "Advanced",
                        "AROMA Filemanager",
-                       "reboot options",
-                       "power off",
+                       "Reboot options",
+                       "Power OFF",
                        NULL };
 
 void device_ui_init(UIParameters* ui_parameters) {
