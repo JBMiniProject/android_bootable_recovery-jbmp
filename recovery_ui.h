@@ -81,9 +81,10 @@ int device_wipe_data();
 #define ITEM_NANDROID        3
 #define ITEM_PARTITION       4
 #define ITEM_ADVANCED        5
-#define ITEM_AROMAFM         6
-#define ITEM_REBOOT          7
-#define ITEM_POWEROFF        8
+#define MAIN_EXTRAS          6
+#define ITEM_AROMAFM         7
+#define ITEM_REBOOT          8
+#define ITEM_POWEROFF        9
 
 // Header text to display above the main menu.
 extern char* MENU_HEADERS[];

@@ -754,6 +754,10 @@ prompt_and_wait() {
                 show_advanced_menu();
                 break;
 
+            case MAIN_EXTRAS:
+                show_extras_menu();
+                break;
+
             case ITEM_AROMAFM:
                 ensure_path_mounted("/system");
                 ensure_path_mounted("/data");
