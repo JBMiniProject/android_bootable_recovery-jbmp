@@ -147,6 +147,26 @@ int get_batt_stats(void) {
     return level;
 }
 
+int vibrate(int timeout_ms)
+{
+    char str[20];
+    int fd;
+    int ret;
+
+    fd = open("/sys/class/timed_output/vibrator/enable", O_WRONLY);
+    if (fd < 0)
+        return -1;
+
+    ret = snprintf(str, sizeof(str), "%d", timeout_ms);
+    ret = write(fd, str, ret);
+    close(fd);
+
+    if (ret < 0)
+       return -1;
+
+    return 0;
+}
+
 // Return the current time as a double (including fractions of a second).
 static double now() {
     struct timeval tv;
@@ -297,6 +317,7 @@ static void draw_screen_locked(void)
             char batt_text[40];
             sprintf(batt_text, "[%d%%]", batt_level);
             draw_text_line(0, batt_text, RIGHT_ALIGN);
+            vibrate(50);
 
             gr_color(MENU_TEXT_COLOR);
             gr_fill(0, (menu_top + menu_sel - menu_show_start) * CHAR_HEIGHT,
