@@ -827,7 +827,8 @@ int ui_start_menu(char** headers, char** items, int initial_selection) {
 
         menu_items = i - menu_top;
         show_menu = 1;
-        menu_sel = menu_show_start = initial_selection;
+        //menu_sel = menu_show_start = initial_selection; //Always select first item
+        menu_sel = initial_selection; //Remain previously selected item
         update_screen_locked();
     }
     pthread_mutex_unlock(&gUpdateMutex);
