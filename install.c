@@ -337,7 +337,7 @@ exit:
 static int
 really_install_package(const char *path)
 {
-    ui_set_background(BACKGROUND_ICON_INSTALLING);
+    ui_set_background(BACKGROUND_ICON_JBMP);
     ui_print("Finding update package...\n");
     ui_show_indeterminate_progress();
     LOGI("Update location: %s\n", path);

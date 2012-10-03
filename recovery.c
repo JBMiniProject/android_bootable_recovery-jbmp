@@ -312,7 +312,7 @@ finish_recovery(const char *send_intent) {
 
 static int
 erase_volume(const char *volume) {
-    ui_set_background(BACKGROUND_ICON_INSTALLING);
+    ui_set_background(BACKGROUND_ICON_JBMP);
     ui_show_indeterminate_progress();
     ui_print("Formatting %s...\n", volume);
 
@@ -918,7 +918,7 @@ main(int argc, char **argv) {
         script_assert_enabled = 0;
         is_user_initiated_recovery = 1;
         ui_set_show_text(1);
-        ui_set_background(BACKGROUND_ICON_CLOCKWORK);
+        ui_set_background(BACKGROUND_ICON_JBMP);
         
         if (extendedcommand_file_exists()) {
             LOGI("Running extendedcommand...\n");
@@ -937,7 +937,7 @@ main(int argc, char **argv) {
 
     if (status != INSTALL_SUCCESS && !is_user_initiated_recovery) {
         ui_set_show_text(1);
-        ui_set_background(BACKGROUND_ICON_ERROR);
+        ui_set_background(BACKGROUND_ICON_JBMP);
     }
     if (status != INSTALL_SUCCESS || ui_text_visible()) {
         prompt_and_wait();

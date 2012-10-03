@@ -234,7 +234,7 @@ int nandroid_backup_partition(const char* backup_path, const char* root) {
 
 int nandroid_backup(const char* backup_path)
 {
-    ui_set_background(BACKGROUND_ICON_INSTALLING);
+    ui_set_background(BACKGROUND_ICON_JBMP);
     
     if (ensure_path_mounted(backup_path) != 0) {
         return print_and_error("Can't mount backup path.\n");
@@ -326,7 +326,7 @@ int nandroid_backup(const char* backup_path)
     }
     
     sync();
-    ui_set_background(BACKGROUND_ICON_CLOCKWORK);
+    ui_set_background(BACKGROUND_ICON_JBMP);
     ui_reset_progress();
     ui_print("\nBackup complete!\n");
     return 0;
@@ -540,7 +540,7 @@ int nandroid_restore_partition(const char* backup_path, const char* root) {
 
 int nandroid_restore(const char* backup_path, int restore_boot, int restore_system, int restore_data, int restore_cache, int restore_sdext, int restore_wimax)
 {
-    ui_set_background(BACKGROUND_ICON_INSTALLING);
+    ui_set_background(BACKGROUND_ICON_JBMP);
     ui_show_indeterminate_progress();
     nandroid_files_total = 0;
 
@@ -609,7 +609,7 @@ int nandroid_restore(const char* backup_path, int restore_boot, int restore_syst
         return ret;
 
     sync();
-    ui_set_background(BACKGROUND_ICON_CLOCKWORK);
+    ui_set_background(BACKGROUND_ICON_JBMP);
     ui_reset_progress();
     ui_print("\nRestore complete!\n");
     return 0;
