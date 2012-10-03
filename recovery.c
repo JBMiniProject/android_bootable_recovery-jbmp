@@ -699,8 +699,8 @@ prompt_and_wait() {
 
         ui_menu_level = -1;
         allow_display_toggle = 1;
-        //int chosen_item = get_menu_selection(headers, MENU_ITEMS, 0, 0); //Always select first item
-        int chosen_item = get_menu_selection(headers, MENU_ITEMS, 0, chosen_item < 0 ? 0:chosen_item); //Remain previously selected item
+        int chosen_item = get_menu_selection(headers, MENU_ITEMS, 0, 0); //Always select first item
+        //int chosen_item = get_menu_selection(headers, MENU_ITEMS, 0, chosen_item < 0 ? 0:chosen_item); //Remain previously selected item
         allow_display_toggle = 0;
 
         // device-specific code may take some action here.  It may
