@@ -524,7 +524,7 @@ get_menu_selection(char** headers, char** items, int menu_only,
 }
 
 static int compare_string(const void* a, const void* b) {
-    return strcmp(*(const char**)a, *(const char**)b);
+    return strcasecmp(*(const char**)a, *(const char**)b);
 }
 
 static int
