@@ -18,7 +18,8 @@ LOCAL_SRC_FILES := \
     edifyscripting.c \
     setprop.c \
     default_recovery_ui.c \
-    verifier.c
+    verifier.c \
+    extras_menu.c
 
 ADDITIONAL_RECOVERY_FILES := $(shell echo $$ADDITIONAL_RECOVERY_FILES)
 LOCAL_SRC_FILES += $(ADDITIONAL_RECOVERY_FILES)
