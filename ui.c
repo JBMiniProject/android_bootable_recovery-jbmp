@@ -798,7 +798,7 @@ void ui_printlogtail(int nb_lines) {
     ui_log_stdout=1;
 }
 
-#define MENU_ITEM_HEADER " - "
+#define MENU_ITEM_HEADER " "
 #define MENU_ITEM_HEADER_LENGTH strlen(MENU_ITEM_HEADER)
 
 int ui_start_menu(char** headers, char** items, int initial_selection) {
