@@ -728,7 +728,7 @@ prompt_and_wait() {
                         return;
                         }
                     case 1: {
-                        android_reboot(ANDROID_RB_RESTART2, 0, "recovery");
+                        __system("touch /cache/recovery/boot;sync;");
                         break;
                         }
                 }
